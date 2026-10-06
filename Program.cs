@@ -1,33 +1,19 @@
 ﻿
 using Fluxo.Models;
 
-Transaction transaction = new Transaction();
-
-string description = "Salary";
-decimal amount = 5000M;
-string type = "Income";
-
-transaction.Description = description;
-transaction.Amount = amount;
-transaction.Type = type;
+Transaction transaction = new Transaction("Salary", 5000M, "Income");
 
 Console.WriteLine($"Description {transaction.Description}");
 Console.WriteLine($"Amount {transaction.Amount}");
 Console.WriteLine($"Type {transaction.Type}");  
 
-Transaction transaction2 = new Transaction();
-
-string description2 = "Rent";
-decimal amount2 = 1500M;
-string type2 = "Expense";
-
-transaction2.Description = description2;
-transaction2.Amount = amount2;
-transaction2.Type = type2;
+Transaction transaction2 = new Transaction("Rent", 1500M, "Expense");
 
 Console.WriteLine($"Description {transaction2.Description}");
 Console.WriteLine($"Amount {transaction2.Amount}");
 Console.WriteLine($"Type {transaction2.Type}"); 
+
+Transaction transaction3 = new Transaction("Electricity Bill", 300M, "Expense");
 
 Console.WriteLine($"------- LISTA DE TRANSAÇOES -------"); 
 
@@ -40,6 +26,7 @@ List<Transaction> transactions = new List<Transaction>();
 
 transactions.Add(transaction);
 transactions.Add(transaction2);
+transactions.Add(transaction3);
 try{
     foreach(Transaction itemTransaction in transactions)
     {

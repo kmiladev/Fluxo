@@ -33,39 +33,9 @@ foreach (Transaction itemTransaction in transactions)
 
 
 Console.WriteLine($"------- LIST OF TEST -------");
-// Teste 1: lista vazia
-List<Transaction> emptyList = new List<Transaction>();
-decimal result1 = balanceCalculator.CalculateBalance(emptyList);
-Console.WriteLine($"Test 1 - Empty list: {result1}");
 
-// Teste 2: somente receitas
-List<Transaction> incomes = new List<Transaction>
-{
-    new Transaction("Salary", 5000M, "Income"),
-    new Transaction("Bonus", 1000M, "Income")
-};
-decimal result2 = balanceCalculator.CalculateBalance(incomes);
-Console.WriteLine($"Test 2 - Only incomes: {result2}");
-
-// Teste 3: somente despesas
-List<Transaction> expenses = new List<Transaction>
-{
-    new Transaction("Rent", 1500M, "Expense"),
-    new Transaction("Electricity", 300M, "Expense")
-};
-decimal result3 = balanceCalculator.CalculateBalance(expenses);
-Console.WriteLine($"Test 3 - Only expenses: {result3}");
-
-// Teste 4: receitas e despesas
-List<Transaction> mixed = new List<Transaction>
-{
-    new Transaction("Salary", 5000M, "Income"),
-    new Transaction("Rent", 1500M, "Expense"),
-    new Transaction("Bonus", 100M, "Income")
-};
-decimal result4 = balanceCalculator.CalculateBalance(mixed);
-Console.WriteLine($"Test 4 - Mixed: {result4}");
-
+BalanceCalculatorManualTests tests = new BalanceCalculatorManualTests();
+tests.Run();
 
 
 Console.WriteLine($"The Current Balance is: {returnBalanceCalculator:C2}");

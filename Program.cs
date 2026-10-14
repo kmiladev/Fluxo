@@ -1,58 +1,71 @@
 ﻿
 using Fluxo.Models;
+using Fluxo.Services;
 
 Transaction transaction = new Transaction("Salary", 5000M, "Income");
-
-Console.WriteLine($"Description {transaction.Description}");
-Console.WriteLine($"Amount {transaction.Amount}");
-Console.WriteLine($"Type {transaction.Type}");  
-
 Transaction transaction2 = new Transaction("Rent", 1500M, "Expense");
-
-Console.WriteLine($"Description {transaction2.Description}");
-Console.WriteLine($"Amount {transaction2.Amount}");
-Console.WriteLine($"Type {transaction2.Type}"); 
-
 Transaction transaction3 = new Transaction("Electricity Bill", 300M, "Expense");
+Transaction transaction4 = new Transaction("Lawyer", 500M, "Expense");
+Transaction transaction5 = new Transaction("Freelancer", 100, "Income");
 
-Console.WriteLine($"------- LISTA DE TRANSAÇOES -------"); 
+Console.WriteLine($"------- LIST OF TRANSACTIONS -------");
 
 // List<Transaction> é uma lista que pode guardar vários objetos Transaction
 // List<tipo = classe/objeto> variávelDeArmazenamento = objeto instanciado.
-
- decimal balance = 0M;
 
 List<Transaction> transactions = new List<Transaction>();
 
 transactions.Add(transaction);
 transactions.Add(transaction2);
 transactions.Add(transaction3);
-try{
-    foreach(Transaction itemTransaction in transactions)
-    {
-        if(itemTransaction.Type == "Income")
-    {
-        balance = balance + itemTransaction.Amount;
-    }
-    else if (itemTransaction.Type == "Expense")
-    {
-        balance = balance - itemTransaction.Amount;
-    }
-    else
-    {
-        throw new ArgumentException("O tipo da transação é inválido");
-    }
-    
-        Console.WriteLine($"Transaction: {itemTransaction.Description}");
-        Console.WriteLine($"Amount: {itemTransaction.Amount}");
-        Console.WriteLine($"Type: {itemTransaction.Type}");
-    }
-}
-catch(ArgumentException ex)
-{
-    Console.WriteLine(ex.Message);
-}
-    //income -> dinheiro entrando(soma) / expense -> dinheiro saindo(subtrai).
+transactions.Add(transaction4);
+transactions.Add(transaction5);
 
-Console.WriteLine($"The Current Balance is: {balance}");
-   
+BalanceCalculator balanceCalculator = new BalanceCalculator();
+decimal returnBalanceCalculator = balanceCalculator.CalculateBalance(transactions);
+
+foreach (Transaction itemTransaction in transactions)
+{
+    Console.WriteLine($"Transaction: {itemTransaction.Description}");
+    Console.WriteLine($"Amount: {itemTransaction.Amount:C2}");
+    Console.WriteLine($"Type: {itemTransaction.Type}");
+}
+
+
+Console.WriteLine($"------- LIST OF TEST -------");
+// Teste 1: lista vazia
+List<Transaction> emptyList = new List<Transaction>();
+decimal result1 = balanceCalculator.CalculateBalance(emptyList);
+Console.WriteLine($"Test 1 - Empty list: {result1}");
+
+// Teste 2: somente receitas
+List<Transaction> incomes = new List<Transaction>
+{
+    new Transaction("Salary", 5000M, "Income"),
+    new Transaction("Bonus", 1000M, "Income")
+};
+decimal result2 = balanceCalculator.CalculateBalance(incomes);
+Console.WriteLine($"Test 2 - Only incomes: {result2}");
+
+// Teste 3: somente despesas
+List<Transaction> expenses = new List<Transaction>
+{
+    new Transaction("Rent", 1500M, "Expense"),
+    new Transaction("Electricity", 300M, "Expense")
+};
+decimal result3 = balanceCalculator.CalculateBalance(expenses);
+Console.WriteLine($"Test 3 - Only expenses: {result3}");
+
+// Teste 4: receitas e despesas
+List<Transaction> mixed = new List<Transaction>
+{
+    new Transaction("Salary", 5000M, "Income"),
+    new Transaction("Rent", 1500M, "Expense"),
+    new Transaction("Bonus", 100M, "Income")
+};
+decimal result4 = balanceCalculator.CalculateBalance(mixed);
+Console.WriteLine($"Test 4 - Mixed: {result4}");
+
+
+
+Console.WriteLine($"The Current Balance is: {returnBalanceCalculator:C2}");
